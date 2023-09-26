@@ -34,22 +34,26 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  labels:
-    name: backend-svc-monitor
-  name: frontend-svc-monitor
+  name: backend
   namespace: monitoring
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/path: "/"
-    prometheus.io/port: '8080'
+  labels:
+    app: backend
+    release: prometheus
 spec:
   selector:
     matchLabels:
-      app: frontend
+      app: backend
   endpoints:
-  - port: '8080'
-    path: /
-    interval: 30s
+  - port: backend
+    path: /metrics
+    interval: 15s
   namespaceSelector:
     matchNames:
     - default
+  name: backend
+  namespace: monitoring
+  labels:
+    app: backend
+    release: prometheus
+  
+
