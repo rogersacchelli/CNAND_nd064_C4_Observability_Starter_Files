@@ -15,7 +15,7 @@ spec:
       containers:
       - name: backend
         # We advise you to build, push and use your own image, instead of using instructor's image.      
-        image: ghcr.io/jasonsmithio/backend:v1
+        image: rogersacchelli/nd064-observability-backend:latest
         ports:
         - containerPort: 8081
 ---
@@ -30,3 +30,26 @@ spec:
     - port: 8081
       targetPort: 8080
   type: LoadBalancer
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: backend-svc-monitor
+  name: frontend-svc-monitor
+  namespace: monitoring
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/"
+    prometheus.io/port: '8080'
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  endpoints:
+  - port: '8080'
+    path: /
+    interval: 30s
+  namespaceSelector:
+    matchNames:
+    - default

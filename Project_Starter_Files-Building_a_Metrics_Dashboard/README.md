@@ -4,20 +4,38 @@
 
 *TODO:* run `kubectl` command to show the running pods and services for all components. Take a screenshot of the output and include it here to verify the installation
 
+![Alt text](./answer-img/pods_and_services.png)
+
 ## Setup the Jaeger and Prometheus source
 *TODO:* Expose Grafana to the internet and then setup Prometheus as a data source. Provide a screenshot of the home page after logging into Grafana.
+
+![Alt text](./answer-img/graphana_logged_in.png)
 
 ## Create a Basic Dashboard
 *TODO:* Create a dashboard in Grafana that shows Prometheus as a source. Take a screenshot and include it here.
 
+![Alt text](./answer-img/prometheus_inflight_requests.png)
+
 ## Describe SLO/SLI
 *TODO:* Describe, in your own words, what the SLIs are, based on an SLO of *monthly uptime* and *request response time*.
+
+*[Response]: SLI is the measured indicator after observation of the agreed period of the SLO. In the example of monthly uptime, the SLI can indicate 99.8% which yelds 14.4 hours of downtime for 30 days of observation. In the context of request response time, SLI could have indicated an average time of 2ms during peak hour.*
 
 ## Creating SLI metrics.
 *TODO:* It is important to know why we want to measure certain metrics for our customer. Describe in detail 5 metrics to measure these SLIs. 
 
+<i>[Response]: It's important to measure certain metrics in order to assess if the agreed performance is in accordance to SLOs. Those indicators are used to evaluate if system meets SLAs. We can list as important metrics:
+
+* Latency - Time for requested to be responded.
+* Error rate - Ration between 4xx and 5xx responses by 2xx responses.
+* Uptime or Availability - Indicates how many hours the service is up.
+* Resource Usage - CPU/Memory/IO are important metrics to be measured in order to keep system safe from outages or slowliness.
+* Concurrency - Number of users application handles can be a important metric to be veried to check if system is running accordingly to its planning.</i>
+
 ## Create a Dashboard to measure our SLIs
 *TODO:* Create a dashboard to measure the uptime of the frontend and backend services We will also want to measure to measure 40x and 50x errors. Create a dashboard that show these values over a 24 hour period and take a screenshot.
+
+
 
 ## Tracing our Flask App
 *TODO:*  We will create a Jaeger span to measure the processes on the backend. Once you fill in the span, provide a screenshot of it here. Also provide a (screenshot) sample Python file containing a trace and span code used to perform Jaeger traces on the backend service.
