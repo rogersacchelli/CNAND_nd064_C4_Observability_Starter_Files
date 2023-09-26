@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: ../../backend/Dockerfile
+          file: ./Project_Starter_Files-Building_a_Metrics_Dashboard/reference-app/backend/Dockerfile
           platforms: linux/amd64
           push: true
           tags: rogersacchelli/nd064-observability-backend:latest

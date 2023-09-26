@@ -1,0 +1,41 @@
+# apiVersion: monitoring.coreos.com/v1
+# kind: ServiceMonitor
+# metadata:
+#   labels:
+#     name: app
+#   name: frontend-app
+#   namespace: default
+# spec:
+#   endpoints:
+#   - interval: 30s
+#     targetPort: 8080
+#     path: /metrics
+#   selector:
+#     matchLabels:
+#       app: backend-app
+# ---
+kubectl apply -n monitoring -f - <<EOF
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: frontend
+  name: frontend-svc-monitor
+  namespace: monitoring
+  annotations:
+    sidecar.jaegertracing.io/inject: "true"
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /
+    prometheus.io/port: 8080
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  endpoints:
+  - port: 8080
+    path: /
+    interval: 30s
+  namespaceSelector:
+    matchNames:
+    - default
+EOF

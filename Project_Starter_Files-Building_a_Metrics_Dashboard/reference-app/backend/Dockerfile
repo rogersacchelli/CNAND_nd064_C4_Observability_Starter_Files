@@ -6,7 +6,7 @@ FROM python:3.7-slim
 ENV APP_HOME /app
 WORKDIR $APP_HOME
 CMD ["pwd"]
-COPY ../../backend/ ./
+COPY ./Project_Starter_Files-Building_a_Metrics_Dashboard/reference-app/backend ./
 
 ARG PROJECT_ID
 ENV PROJECT_ID ${PROJECT_ID}
