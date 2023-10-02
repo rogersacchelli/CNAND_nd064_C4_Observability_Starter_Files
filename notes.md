@@ -29,6 +29,7 @@ kubectl patch svc "prometheus-grafana" -n "monitoring" -p '{"spec":{"type":"Load
 kubectl patch svc "prometheus-operated" -n "monitoring" -p '{"spec":{"type":"ClusterIP"}}'
 
 kubectl --namespace monitoring port-forward svc/prometheus-grafana --address 0.0.0.0 3000:80 &
+kubectl --namespace monitoring port-forward svc/prometheus-operated --address 0.0.0.0 9090 &
 ```
 
 # Install Jaeger
