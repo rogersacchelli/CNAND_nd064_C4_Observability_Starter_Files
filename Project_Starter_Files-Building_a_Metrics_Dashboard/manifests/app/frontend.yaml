@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-app
+  name: frontend
   annotations:
     sidecar.jaegertracing.io/inject: 'true'
     prometheus.io/scrape: "true"
@@ -31,7 +31,7 @@ spec:
   selector:
     app: frontend
   ports:
-    - name: backend
+    - name: frontend
       protocol: TCP
       port: 8080
       targetPort: frontend
