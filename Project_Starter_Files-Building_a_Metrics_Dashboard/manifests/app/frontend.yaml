@@ -2,8 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-app
+  annotations:
+    sidecar.jaegertracing.io/inject: 'true'
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: frontendport
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -14,8 +19,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        # We advise you to build, push and use your own image, instead of using instructor's image.
-        image: ghcr.io/jasonsmithio/myfrontend:v1
+        image: rogersacchelli/nd064-observability-frontend:latest
         ports:
         - containerPort: 8080
 ---
@@ -27,8 +31,10 @@ spec:
   selector:
     app: frontend
   ports:
-    - port: 8080
-      targetPort: 8080
+    - name: backend
+      protocol: TCP
+      port: 8080
+      targetPort: frontend
   type: LoadBalancer
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -50,9 +56,4 @@ spec:
   namespaceSelector:
     matchNames:
     - default
-  name: frontend
-  namespace: monitoring
-  labels:
-    app: frontend
-    release: prometheus
   
