@@ -7,7 +7,6 @@ metadata:
     prometheus.io/scrape: "true"
     prometheus.io/path: /metrics
     prometheus.io/port: backendport
-
 spec:
   replicas: 1
   selector:
