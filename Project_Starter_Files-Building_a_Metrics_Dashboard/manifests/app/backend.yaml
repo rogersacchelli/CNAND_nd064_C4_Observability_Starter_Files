@@ -60,10 +60,5 @@ spec:
   namespaceSelector:
     matchNames:
     - default
-  name: backend
-  namespace: monitoring
-  labels:
-    app: backend
-    release: prometheus
   
 
