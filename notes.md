@@ -13,11 +13,14 @@ We install it similarly like earlier, but we provide a kube-prometheus-stack rep
 kubectl create namespace monitoring
 kubectl create namespace observability
 
+# Helm Install
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
 # Add repo to helm 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-
-
 
 # Install Prometheus Stack
 helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --kubeconfig /etc/rancher/k3s/k3s.yaml
@@ -27,6 +30,9 @@ kubectl patch svc "prometheus-grafana" -n "monitoring" -p '{"spec":{"type":"Load
 
 # Expose Service Proteus
 kubectl patch svc "prometheus-operated" -n "monitoring" -p '{"spec":{"type":"ClusterIP"}}'
+
+kubectl patch svc "jaeger-operator-metrics" -n "monitoring" -p '{"spec":{"type":"LoadBalancer"}}'
+
 
 kubectl --namespace monitoring port-forward svc/prometheus-grafana --address 0.0.0.0 3000:80 &
 kubectl --namespace monitoring port-forward svc/prometheus-operated --address 0.0.0.0 9090 &
@@ -66,7 +72,6 @@ kubectl get deployment  -n observability
 ###
 # Create Ingress Service
 ###
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.3/deploy/static/provider/cloud/deploy.yaml
 
 # Create a Jaeger instance
 kubectl apply -n observability -f - <<EOF
@@ -77,7 +82,8 @@ metadata:
 EOF
 
 # Port Forwarding
-kubectl port-forward -n observability  service/simplest-query --address 0.0.0.0 16686:16686
+kubectl patch svc ingress-nginx-controller  -p '{"spec": {"type": "LoadBalancer", "externalIPs":[10.0.2.15"]}}'
+kubectl port-forward -n observability  prometheus-operated --address 0.0.0.0 16686
 
 ```
 
