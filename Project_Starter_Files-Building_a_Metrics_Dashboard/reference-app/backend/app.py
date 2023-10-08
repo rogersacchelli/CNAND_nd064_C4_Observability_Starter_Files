@@ -64,6 +64,11 @@ def add_star():
         span.set_tag('star', output)
     return jsonify({"result": output})
 
+@app.route("/error_500", methods=["GET"])
+def erro_500():
+    #with tracer.start_span('/star') as span:
+    return None
+
 metrics.register_default(
     metrics.counter(
         'by_path_counter', 'Request count by request paths',
@@ -79,6 +84,6 @@ if __name__ == "__main__":
 
     
 
-    app.run(DEBUG_METRICS=True)
+    app.run()
 
     tracer.close()

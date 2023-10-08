@@ -5,7 +5,8 @@ FROM python:3.7-slim
 # Copy local code to the container image.
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-COPY ./Project_Starter_Files-Building_a_Metrics_Dashboard/reference-app/frontend ./
+#COPY ./Project_Starter_Files-Building_a_Metrics_Dashboard/reference-app/frontend ./
+COPY ./ ./
 
 # Install production dependencies.
 RUN apt-get update && \
